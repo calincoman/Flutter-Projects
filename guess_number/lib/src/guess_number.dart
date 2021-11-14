@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
   FocusNode focusNode = FocusNode();
   RandomNumberGenerator rng = const RandomNumberGenerator(minValue: 1, maxValue: 100);
   int randomNumber = 1;
-  int inputNumber = 0, inputNumberCopy = -1;
+  int inputNumber = 0, inputNumberCopy = 0;
   String? errorText;
   String elevatedButtonText = constants.elevatedButtonText_1;
   bool foundNumber = false;
@@ -51,6 +51,7 @@ class _HomePageState extends State<HomePage> {
       enableTextField = true;
       resetRandomNumber();
       elevatedButtonText = constants.elevatedButtonText_1;
+      buttonClickedAfterReset = false;
     });
   }
 
@@ -99,7 +100,7 @@ class _HomePageState extends State<HomePage> {
               style: TextStyle(fontSize: 24, color: Colors.black),
             ),
             const SizedBox(height: 20),
-            if (!foundNumber && !reset && (inputNumberCopy == inputNumber && textFieldController.text != ""))
+            if (!foundNumber && !reset && buttonClickedAfterReset)
               Column(
                 children: [
                   Text(
@@ -167,6 +168,7 @@ class _HomePageState extends State<HomePage> {
                   const SizedBox(height: 15),
                   ElevatedButton(
                       onPressed: () {
+                        textFieldController.clear();
                         if (inputNumber == 0) {
                             return;
                         }
@@ -175,15 +177,18 @@ class _HomePageState extends State<HomePage> {
                         }
                         setState(() {
                           inputNumberCopy = inputNumber;
+                          if (reset == false) {
+                            buttonClickedAfterReset = true;
+                          }
                           if (reset == true) {
                             reset = false;
                             foundNumber = false;
                             enableTextField = true;
                             resetRandomNumber();
+                            buttonClickedAfterReset = false;
                           }
                           if (inputNumber == randomNumber) {
                             foundNumber = true;
-                            textFieldController.clear();
                             reset = true;
                           }
                           if (reset) {
