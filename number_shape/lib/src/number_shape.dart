@@ -1,7 +1,6 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 
-
 void main() {
   runApp(const NumberShape());
 }
@@ -25,7 +24,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   // verifies if the number starts with 0
   bool checkIfValid(String? inputText) {
     return !(inputText!.length >= 2 && inputText[0] == '0' && inputText[1] != '.');
@@ -41,29 +39,27 @@ class _HomePageState extends State<HomePage> {
     return intValue;
   }
 
-  bool checkIfPerfectSquare(int number)
-  {
+  bool checkIfPerfectSquare(int number) {
     int left = 1;
     int right = number;
 
     while (left <= right) {
-        final double mid = (left + right) / 2;
-        final int middle = mid.floor();
+      final double mid = (left + right) / 2;
+      final int middle = mid.floor();
 
-        if (middle * middle == number) {
-          return true;
-        }
-        if (middle * middle < number) {
-          left = middle + 1;
-        } else {
-          right = middle - 1;
-        }
+      if (middle * middle == number) {
+        return true;
+      }
+      if (middle * middle < number) {
+        left = middle + 1;
+      } else {
+        right = middle - 1;
+      }
     }
     return false;
   }
 
-  bool checkIfPerfectCube(int number)
-  {
+  bool checkIfPerfectCube(int number) {
     int left = 1;
     int right = number;
 
@@ -94,70 +90,71 @@ class _HomePageState extends State<HomePage> {
     return Listener(
       onPointerDown: (PointerDownEvent event) => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          child: const Text("Check"),
-          onPressed: () {
-            if (inputNumber == 0 || textFieldController.text == "") {
-              return;
-            }
-            setState(() {
-              isPerfectSquare = checkIfPerfectSquare(inputNumber);
-              isPerfectCube = checkIfPerfectCube(inputNumber);
-            });
+          floatingActionButton: FloatingActionButton(
+            child: const Text("Check"),
+            onPressed: () {
+              if (inputNumber == 0 || textFieldController.text == "") {
+                return;
+              }
+              setState(() {
+                isPerfectSquare = checkIfPerfectSquare(inputNumber);
+                isPerfectCube = checkIfPerfectCube(inputNumber);
+              });
 
-            showAlertDialog(context, this);
-            textFieldController.clear();
-          },
-        ),
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text("Number Shapes"),
-        ),
-        body: Column(
-          children: <Widget>[
-            const SizedBox(height: 20),
-            const Text(
-              "Input a number to see if it is square or triangular",
-              style: TextStyle(fontSize: 20, color: Colors.black),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 15),
-            Container(
-              margin: const EdgeInsetsDirectional.all(20),
-              child: TextField(
-                controller: textFieldController,
-                focusNode: focusNode,
-                keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                decoration: InputDecoration(
-                  hintText: "Enter a positive number",
-                  errorText: errorText,
-                  suffix: IconButton(
-                    icon: const Icon(Icons.close),
-                    onPressed: () {
-                      textFieldController.clear();
-                      focusNode.requestFocus();
-                      setState(() {
-                        inputNumber = 0;
-                      });
-                    },
-                  ),
-                ),
-                onChanged: (String? value) {
-                  final int? intValue = getNumber(value);
-                  setState(() {
-                    errorText = (intValue == null && value != null && value.isNotEmpty) ? "This is not a valid number!" : null;
-                    if (intValue != null) {
-                      inputNumber = intValue;
-                    } else {
-                      inputNumber = 0;
-                    }
-                  });
-                },
+              showAlertDialog(context, this);
+              textFieldController.clear();
+            },
+          ),
+          appBar: AppBar(
+            centerTitle: true,
+            title: const Text("Number Shapes"),
+          ),
+          body: Column(
+            children: <Widget>[
+              const SizedBox(height: 20),
+              const Text(
+                "Input a number to see if it is square or triangular",
+                style: TextStyle(fontSize: 20, color: Colors.black),
+                textAlign: TextAlign.center,
               ),
-            ),
-          ],
-        )
-      ),
+              const SizedBox(height: 15),
+              Container(
+                margin: const EdgeInsetsDirectional.all(20),
+                child: TextField(
+                  controller: textFieldController,
+                  focusNode: focusNode,
+                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  decoration: InputDecoration(
+                    hintText: "Enter a positive number",
+                    errorText: errorText,
+                    suffix: IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () {
+                        textFieldController.clear();
+                        focusNode.requestFocus();
+                        setState(() {
+                          inputNumber = 0;
+                        });
+                      },
+                    ),
+                  ),
+                  onChanged: (String? value) {
+                    final int? intValue = getNumber(value);
+                    setState(() {
+                      errorText = (intValue == null && value != null && value.isNotEmpty)
+                          ? "This is not a valid number!"
+                          : null;
+                      if (intValue != null) {
+                        inputNumber = intValue;
+                      } else {
+                        inputNumber = 0;
+                      }
+                    });
+                  },
+                ),
+              ),
+            ],
+          )),
     );
   }
 }
@@ -188,7 +185,7 @@ void showAlertDialog(BuildContext context, _HomePageState home) {
   );
 
   // show the alert dialog
-  showDialog<void> (
+  showDialog<void>(
     context: context,
     builder: (BuildContext context) {
       return alert;
