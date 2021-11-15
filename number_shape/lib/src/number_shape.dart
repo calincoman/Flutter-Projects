@@ -47,8 +47,8 @@ class _HomePageState extends State<HomePage> {
     int right = number;
 
     while (left <= right) {
-        double mid = (left + right) / 2;
-        int middle = mid.floor();
+        final double mid = (left + right) / 2;
+        final int middle = mid.floor();
 
         if (middle * middle == number) {
           return true;
@@ -68,8 +68,8 @@ class _HomePageState extends State<HomePage> {
     int right = number;
 
     while (left <= right) {
-      double mid = (left + right) / 2;
-      int middle = mid.floor();
+      final double mid = (left + right) / 2;
+      final int middle = mid.floor();
 
       if (middle * middle * middle == number) {
         return true;
@@ -114,7 +114,6 @@ class _HomePageState extends State<HomePage> {
           title: const Text("Number Shapes"),
         ),
         body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             const SizedBox(height: 20),
             const Text(
@@ -144,9 +143,9 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 onChanged: (String? value) {
-                  int? intValue = getNumber(value!);
+                  final int? intValue = getNumber(value);
                   setState(() {
-                    errorText = (intValue == null && value.isNotEmpty) ? "This is not a valid number!" : null;
+                    errorText = (intValue == null && value != null && value.isNotEmpty) ? "This is not a valid number!" : null;
                     if (intValue != null) {
                       inputNumber = intValue;
                     } else {
@@ -164,13 +163,13 @@ class _HomePageState extends State<HomePage> {
 }
 
 // shows the Alert Dialog on the screen
-showAlertDialog(BuildContext context, _HomePageState home) {
-  String alertDialogTitle = "${home.inputNumber}";
+void showAlertDialog(BuildContext context, _HomePageState home) {
+  final String alertDialogTitle = "${home.inputNumber}";
   String alertDialogContent = "";
 
-  int inputNumber = home.inputNumber;
-  bool isPerfectSquare = home.isPerfectSquare;
-  bool isPerfectCube = home.isPerfectCube;
+  final int inputNumber = home.inputNumber;
+  final bool isPerfectSquare = home.isPerfectSquare;
+  final bool isPerfectCube = home.isPerfectCube;
 
   if (isPerfectSquare && isPerfectCube) {
     alertDialogContent = "Number $inputNumber is both SQUARE and CUBE";
@@ -183,17 +182,16 @@ showAlertDialog(BuildContext context, _HomePageState home) {
   }
 
   // instantiate an Alert Dialog
-  AlertDialog alert = AlertDialog(
+  final AlertDialog alert = AlertDialog(
     title: Text(alertDialogTitle),
     content: Text(alertDialogContent),
   );
 
   // show the alert dialog
-  showDialog(
+  showDialog<void> (
     context: context,
     builder: (BuildContext context) {
       return alert;
     },
   );
 }
-
