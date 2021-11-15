@@ -11,6 +11,6 @@ jobs:
         with:
           channel: 'stable'
       - name: run format
-        run: flutter format -l 120 --set-exit-if-changed
+        run: flutter format -l 120 --set-exit-if-changed .
       - name: run analysis
         run: flutter analyze
