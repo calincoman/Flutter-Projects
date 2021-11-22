@@ -119,57 +119,57 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text('Tic-Tac-Toe'),
-          backgroundColor: Colors.deepOrange,
-        ),
-        body: Column(
-          children: <Widget>[
-            GridView.builder(
-              shrinkWrap: true,
-              itemCount: matrix.length * matrix[0].length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-              ),
-              itemBuilder: (BuildContext context, int index) {
-                final Coord coord = getCoordinates(index);
-                final int row = coord.x;
-                final int col = coord.y;
-
-                final GridElement element = matrix[row][col];
-
-                return GestureDetector(
-                  onTap: () {
-                    updateState(element);
-                    setState(() {
-                      whoseTurn = !whoseTurn;
-                    });
-                    findWinner();
-                    if (foundWinner || draw) {
-                      showAlertDialog(context, this);
-                    }
-                  },
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    decoration: BoxDecoration(
-                      color: showGridColor(element, row, col),
-                      border: Border.all(),
-                    ),
-                  ),
-                );
-              },
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text('Tic-Tac-Toe'),
+        backgroundColor: Colors.deepOrange,
+      ),
+      body: Column(
+        children: <Widget>[
+          GridView.builder(
+            shrinkWrap: true,
+            itemCount: matrix.length * matrix[0].length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
             ),
-            const SizedBox(height: 40),
-            if (foundWinner || draw)
-              ElevatedButton(
-                onPressed: () {
-                  resetGame();
+            itemBuilder: (BuildContext context, int index) {
+              final Coord coord = getCoordinates(index);
+              final int row = coord.x;
+              final int col = coord.y;
+
+              final GridElement element = matrix[row][col];
+
+              return GestureDetector(
+                onTap: () {
+                  updateState(element);
+                  setState(() {
+                    whoseTurn = !whoseTurn;
+                  });
+                  findWinner();
+                  if (foundWinner || draw) {
+                    showAlertDialog(context, this);
+                  }
                 },
-                child: const Text('Play again!'),
-              ),
-          ],
-        )
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  decoration: BoxDecoration(
+                    color: showGridColor(element, row, col),
+                    border: Border.all(),
+                  ),
+                ),
+              );
+            },
+          ),
+          const SizedBox(height: 40),
+          if (foundWinner || draw)
+            ElevatedButton(
+              onPressed: () {
+                resetGame();
+              },
+              child: const Text('Play again!'),
+            ),
+        ],
+      ),
     );
   }
 }
